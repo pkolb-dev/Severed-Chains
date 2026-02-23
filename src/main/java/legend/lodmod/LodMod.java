@@ -245,7 +245,7 @@ public class LodMod {
     "rouge_equipment_shop", "rouge_item_shop", "moon_equipment_shop", "moon_item_shop",
     "hellena_01_item_shop", "kashua_equipment_shop", "kashua_item_shop", "fletz_accessory_shop",
     "forest_item_shop", "kazas_fort_equipment_shop", "volcano_item_shop", "zenebatos_equipment_shop",
-    "zenebatos_item_shop", "hellena_02_item_shop", "black_castle_item_shop", "unknown_shop_01", "empty_shop", "empty_shop"
+    "zenebatos_item_shop", "hellena_02_item_shop", "unknown_shop_01", "empty_shop", "empty_shop", "empty_shop"
     , "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop"
     , "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop",
     "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop", "empty_shop",
