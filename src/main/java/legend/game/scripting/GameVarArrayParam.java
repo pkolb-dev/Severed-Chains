@@ -31,8 +31,8 @@ public class GameVarArrayParam extends Param {
     return switch(this.varIndex) {
       case 6 -> Scus94491BpeSegment_800b.gameState_800babc8.scriptData_08[this.arrIndex];
       case 17 -> this.arrIndex < Scus94491BpeSegment_800b.gameState_800babc8.charIds_88.size() ? Scus94491BpeSegment_800b.gameState_800babc8.charIds_88.getInt(this.arrIndex) : -1;
-      case 32 -> Scus94491BpeSegment_8006.battleState_8006e398.allBents_e0c.get(this.arrIndex) != null ? Scus94491BpeSegment_8006.battleState_8006e398.allBents_e0c.get(this.arrIndex).index : -1;
-      case 34 -> Scus94491BpeSegment_8006.battleState_8006e398.playerBents_e40.get(this.arrIndex) != null ? Scus94491BpeSegment_8006.battleState_8006e398.playerBents_e40.get(this.arrIndex).index : -1;
+      case 32 -> this.arrIndex < Scus94491BpeSegment_8006.battleState_8006e398.allBents_e0c.size() ? Scus94491BpeSegment_8006.battleState_8006e398.allBents_e0c.get(this.arrIndex).index : -1;
+      case 34 -> this.arrIndex < Scus94491BpeSegment_8006.battleState_8006e398.playerBents_e40.size() ? Scus94491BpeSegment_8006.battleState_8006e398.playerBents_e40.get(this.arrIndex).index : -1;
       case 36 -> Scus94491BpeSegment_8006.battleState_8006e398.monsterBents_e50[this.arrIndex] != null ? Scus94491BpeSegment_8006.battleState_8006e398.monsterBents_e50[this.arrIndex].index : -1;
       case 41 -> throw new RuntimeException("Not implemented"); //Scus94491BpeSegment_800b.itemsDroppedByEnemies_800bc928.get(this.arrIndex).get();
       case 45 -> this.readBattleVar(this.arrIndex);
