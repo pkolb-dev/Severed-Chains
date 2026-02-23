@@ -80,6 +80,7 @@ import org.joml.Math;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.legendofdragoon.modloader.registries.RegistryId;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -800,6 +801,7 @@ public class SMap extends EngineState<SMap> {
     functions[788] = this::FUN_800f2554;
     functions[789] = this::scriptDeallocateLawPodTrail;
     functions[790] = this::scriptAllocateUnusedSmokeEffectData;
+    functions[791] = this::scriptOpenShop;
 
     functions[940] = this::scriptSetSobjUsePs1Depth;
 
@@ -5163,6 +5165,14 @@ public class SMap extends EngineState<SMap> {
   @ScriptDescription("No-op")
   @Method(0x800f2780L)
   private FlowControl FUN_800f2780(final RunningScript<?> script) {
+    return FlowControl.CONTINUE;
+  }
+
+  @ScriptDescription("Opens a shop")
+  @ScriptParam(direction = ScriptParam.Direction.IN, type = ScriptParam.Type.REG, name = "shopId", description = "The shop ID")
+  private FlowControl scriptOpenShop(final RunningScript<?> script) {
+    final RegistryId shopId = script.params_20[0].getRegistryId();
+    initMenu(WhichMenu.RENDER_NEW_MENU, () -> new ShopScreen(REGISTRIES.shop.getEntry(shopId).get()));
     return FlowControl.CONTINUE;
   }
 
