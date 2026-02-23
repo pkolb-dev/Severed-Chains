@@ -143,6 +143,7 @@ diff,SECT/DRGN21.BIN/429/8,scripts/DRGN21/429/8.diff,"Lohan Market, fix adult st
 diff,SECT/DRGN21.BIN/453/1,scripts/DRGN21/453/1.diff,"Lohan Hero Competition shop"
 diff,SECT/DRGN21.BIN/519/2,scripts/DRGN21/519/2.diff,"Kazas Entrance, fix warden rotation, GH#1853"
 diff,SECT/DRGN21.BIN/543/1,scripts/DRGN21/543/1.diff,"Kazas Slums, fix Dart falling down ladder hole, GH#1452"
+diff,SECT/DRGN21.BIN/585/1,scripts/DRGN21/585/1.diff,"Black Castle, use registry id for item shop, GH#2569"
 diff,SECT/DRGN21.BIN/597/1,scripts/DRGN21/597/1.diff,"Kazas Garbage Room, GH#1078"
 diff,SECT/DRGN21.BIN/687/6,scripts/DRGN21/687/6.diff,"Black Castle, Kongol pre-fight cutscene, widescreen patch, GH#2139"
 diff,SECT/DRGN21.BIN/693/5,scripts/DRGN21/693/5.diff,"Hoax aftermath cutscene, fallen knight, widescreen patch, GH#2136"
