@@ -177,7 +177,7 @@ public class Ttle extends EngineState<Ttle> {
   private boolean fireLoaded;
 
   private final int[] _800ce7b0 = {255, 1, 255, 255};
-  private final int[] menuTextWidth = {407, 257, 227, 169, 141};
+  private final int[] menuTextWidth = {407, 257, 227, 189, 141};
 
   public static final FontOptions VERSION_FONT = new FontOptions().size(0.5f).colour(TextColour.LIGHT_BROWN).noShadow().horizontalAlign(HorizontalAlign.RIGHT);
 

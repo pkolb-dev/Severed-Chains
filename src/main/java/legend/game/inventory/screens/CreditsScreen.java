@@ -1,10 +1,22 @@
 package legend.game.inventory.screens;
 
 import discord.DiscordRichPresence;
+import legend.core.QueuedModelStandard;
+import legend.core.gpu.Bpp;
+import legend.core.gpu.VramTexture;
+import legend.core.gpu.VramTextureSingle;
+import legend.core.gte.MV;
+import legend.core.opengl.Obj;
+import legend.core.opengl.QuadBuilder;
+import legend.core.opengl.Texture;
 import legend.core.platform.input.InputAction;
 import legend.core.platform.input.InputMod;
 import legend.game.credits.Credits.CreditsType;
 import legend.game.i18n.I18n;
+import legend.game.tim.Tim;
+import legend.game.types.Translucency;
+import legend.game.unpacker.FileData;
+import legend.game.unpacker.Loader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,13 +25,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static legend.core.GameEngine.DEFAULT_FONT;
 import static legend.core.GameEngine.RENDERER;
+import static legend.core.gpu.VramTextureLoader.palettesFromTim;
+import static legend.core.gpu.VramTextureLoader.stitchVertical;
+import static legend.core.gpu.VramTextureLoader.textureFromTim;
 import static legend.game.FullScreenEffects.startFadeEffect;
 import static legend.game.Menus.deallocateRenderables;
 import static legend.game.Text.renderText;
@@ -66,9 +81,16 @@ public class CreditsScreen extends MenuScreen {
   private float backgroundOpacity;
   private boolean scrolling;
 
+  private VramTexture backgroundTexture;
+  private VramTexture[] backgroundPalettes;
+  private Texture backgroundTex;
+  private Texture fadeTex;
+  private Obj backgroundObj;
+  private final MV transforms = new MV();
+
   public CreditsScreen(final Runnable unload) {
     this.unload = unload;
-    this.fonts = new HashMap<>();
+    this.fonts = new EnumMap<>(CreditsType.class);
     this.credits = new ArrayList<>();
     this.font = new FontOptions();
     this.scrolling = true;
@@ -169,26 +191,51 @@ public class CreditsScreen extends MenuScreen {
   }
 
   private void renderBackground() {
+    this.transforms.transfer.set(0.0f, 0.0f, 1001.0f);
+    this.transforms.scaling(368.0f, 424.0f, 1.0f);
 
+    RENDERER
+      .queueOrthoModel(this.backgroundObj, this.transforms, QueuedModelStandard.class)
+      .texture(this.backgroundTex)
+    ;
+
+    this.transforms.transfer.set(0.0f, 0.0f, 1000.0f);
+    this.transforms.scaling(368.0f, 240.0f, 1.0f);
+
+    RENDERER
+      .queueOrthoModel(this.backgroundObj, this.transforms, QueuedModelStandard.class)
+      .texture(this.fadeTex)
+      .useTextureAlpha()
+      .translucency(Translucency.HALF_B_PLUS_HALF_F)
+    ;
   }
 
   @Override
   protected void render() {
     switch(this.loadingStage) {
+      // Load TIMs
       case 0 -> {
+        this.loadingStage++;
+        Loader.loadFiles(this::menuTexturesMrgLoaded, "SECT/DRGN0.BIN/5718/0", "SECT/DRGN0.BIN/5718/1");
+      }
+
+      // State 1 is waiting for the textures to load
+
+      case 2 -> {
+        this.initBackground();
         this.renderBackground();
         startFadeEffect(2, 10);
         deallocateRenderables(0xff);
         this.loadingStage++;
       }
 
-      case 1 -> {
+      case 3 -> {
         this.renderBackground();
         deallocateRenderables(0);
         this.loadingStage++;
       }
 
-      case 2 -> {
+      case 4 -> {
         this.renderBackground();
         this.renderCredits();
 
@@ -211,9 +258,40 @@ public class CreditsScreen extends MenuScreen {
       case 100 -> {
         this.renderBackground();
         this.renderCredits();
+
+        this.backgroundObj.delete();
+        this.backgroundTex.delete();
+        this.fadeTex.delete();
+
         this.unload.run();
       }
     }
+  }
+
+  private void menuTexturesMrgLoaded(final List<FileData> files) {
+    this.backgroundTexture = stitchVertical(
+      textureFromTim(new Tim(files.get(0))),
+      textureFromTim(new Tim(files.get(1)))
+    );
+
+    this.backgroundPalettes = palettesFromTim(new Tim(files.get(0)));
+
+    this.loadingStage++;
+  }
+
+  private void initBackground() {
+    this.backgroundTex = ((VramTextureSingle)this.backgroundTexture).createOpenglTexture((VramTextureSingle)this.backgroundPalettes[0]);
+    this.fadeTex = Texture.png(Path.of("gfx/ui/credits_fade.png"));
+
+    this.backgroundObj = new QuadBuilder("Title Screen Background")
+      .pos(0.0f, 0.0f, 0.0f)
+      .size(1.0f, 1.0f)
+      .bpp(Bpp.BITS_24)
+      .build()
+    ;
+
+    this.backgroundTexture = null;
+    this.backgroundPalettes = null;
   }
 
   @Override
@@ -258,7 +336,7 @@ public class CreditsScreen extends MenuScreen {
       return InputPropagation.HANDLED;
     }
 
-    if(this.loadingStage != 2) {
+    if(this.loadingStage != 4) {
       return InputPropagation.PROPAGATE;
     }
 
