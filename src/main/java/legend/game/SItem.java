@@ -2210,16 +2210,15 @@ public final class SItem {
 
         if(messageBox.text_00 != null) {
           final int textHeight = 12;
-          final int textVerticalPosition = textHeight / 2;
-          final int topOfMessageBox = messageBox.text_00.length * textVerticalPosition;
-          y -= topOfMessageBox;
+          final int textVerticalPositionStart = (messageBox.text_00.length * textHeight) / 2;
+          y -= textVerticalPositionStart;
 
           for(final String line : messageBox.text_00) {
             renderText(line, x, y, UI_TEXT_CENTERED);
             y += textHeight;
           }
 
-          if (messageBox.type_15 == MessageBoxType.CONFIRMATION.type) {
+          if (messageBox.type_15 == MessageBoxType.CONFIRMATION) {
             y -= (messageBox.text_00.length - 1) * 3;
           }
         }
@@ -2227,7 +2226,7 @@ public final class SItem {
         //LAB_8010eeac
         textZ_800bdf00 = 33;
 
-        if(messageBox.type_15 == MessageBoxType.ALERT.type) {
+        if(messageBox.type_15 == MessageBoxType.ALERT) {
           //LAB_8010eed8
           if(!messageBox.ignoreInput && PLATFORM.isActionPressed(INPUT_ACTION_MENU_CONFIRM.get()) || PLATFORM.isActionPressed(INPUT_ACTION_MENU_BACK.get())) {
             playMenuSound(2);
@@ -2238,7 +2237,7 @@ public final class SItem {
           break;
         }
 
-        if(messageBox.type_15 == MessageBoxType.CONFIRMATION.type) {
+        if(messageBox.type_15 == MessageBoxType.CONFIRMATION) {
           //LAB_8010ef10
           if(messageBox.highlightRenderable_04 == null) {
             messageBox.highlightRenderable_04 = new Highlight();
@@ -2299,7 +2298,7 @@ public final class SItem {
   }
 
   @Method(0x8010f130L)
-  public static void setMessageBoxText(final MessageBox20 messageBox, @Nullable final String text, final int type) {
+  public static void setMessageBoxText(final MessageBox20 messageBox, @Nullable final String text, final MessageBoxType type) {
     setMessageBoxOptions(messageBox, "Yes", "No");
 
     if(text != null) {
