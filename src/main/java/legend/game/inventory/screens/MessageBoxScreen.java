@@ -5,6 +5,7 @@ import legend.core.platform.input.InputAction;
 import legend.core.platform.input.InputMod;
 import legend.game.types.MessageBox20;
 import legend.game.types.MessageBoxResult;
+import legend.game.types.MessageBoxType;
 
 import java.util.Set;
 import java.util.function.Consumer;
@@ -57,7 +58,7 @@ public class MessageBoxScreen extends MenuScreen {
     }
 
     // Yes/no
-    if(this.messageBox.type_15 == 2) {
+    if(this.messageBox.type_15 == MessageBoxType.CONFIRMATION.type) {
       final int selectionY = this.messageBox.y_1e + 21 + this.messageBox.text_00.length * 12 / 2 - (this.messageBox.text_00.length - 1) * 3;
 
       if(this.messageBox.menuIndex_18 != 0 && MathHelper.inBox((int)x, (int)y, this.messageBox.x_1c + 4, selectionY, 112, 14)) {
@@ -90,11 +91,11 @@ public class MessageBoxScreen extends MenuScreen {
       return InputPropagation.PROPAGATE;
     }
 
-    if(this.messageBox.type_15 == 0) {
+    if(this.messageBox.type_15 == MessageBoxType.ALERT.type) {
       playMenuSound(2);
       this.result = MessageBoxResult.YES;
       this.messageBox.state_0c = 4;
-    } else if(this.messageBox.type_15 == 2) {
+    } else if(this.messageBox.type_15 == MessageBoxType.CONFIRMATION.type) {
       // Yes/no
       final int selectionY = this.messageBox.y_1e + 21 + this.messageBox.text_00.length * 12 / 2 - (this.messageBox.text_00.length - 1) * 3;
 
@@ -193,14 +194,14 @@ public class MessageBoxScreen extends MenuScreen {
       return InputPropagation.PROPAGATE;
     }
 
-    if(this.messageBox.type_15 == 0) {
+    if(this.messageBox.type_15 == MessageBoxType.ALERT.type) {
       playMenuSound(2);
       this.result = MessageBoxResult.YES;
       this.messageBox.state_0c = 4;
       return InputPropagation.HANDLED;
     }
 
-    if(this.messageBox.type_15 == 2) {
+    if(this.messageBox.type_15 == MessageBoxType.CONFIRMATION.type) {
       if(action == INPUT_ACTION_MENU_CONFIRM.get() && !repeat) {
         this.menuSelect();
         return InputPropagation.HANDLED;
