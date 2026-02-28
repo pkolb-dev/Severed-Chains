@@ -75,7 +75,7 @@ public final class XaPlayer extends AudioSource {
       this.pcmBuffer = BufferUtils.createShortBuffer(this.pcm.length);
     }
 
-    this.sampleCount = OpusFile.op_pcm_total(this.opusFile, -1);
+    this.sampleCount = OpusFile.op_pcm_total(this.opusFile, -1) * newChannelCount;
 
     if(this.sampleCount < this.samplesPerTick * 4) {
       throw new RuntimeException("XA file is less than 4 buffers in length (40ms)");
