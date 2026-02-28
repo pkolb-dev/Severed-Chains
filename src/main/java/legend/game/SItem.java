@@ -2210,8 +2210,8 @@ public final class SItem {
 
         if(messageBox.text_00 != null) {
           final int textHeight = 12;
-          final int textVerticalPositionStart = (messageBox.text_00.length * textHeight) / 2;
-          y -= textVerticalPositionStart;
+          final int textOffset = textHeight / 2;
+          y -= textOffset;
 
           for(final String line : messageBox.text_00) {
             renderText(line, x, y, UI_TEXT_CENTERED);
