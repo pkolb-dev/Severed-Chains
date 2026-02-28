@@ -224,9 +224,10 @@ public class Credits extends EngineState<Credits> {
   public void tick() {
     super.tick();
 
-    if(PLATFORM.isActionPressed(INPUT_ACTION_MENU_CONFIRM.get()) || PLATFORM.isActionPressed(INPUT_ACTION_MENU_BACK.get())) {
+    if(this.loadingStage >= 2 && (PLATFORM.isActionPressed(INPUT_ACTION_MENU_CONFIRM.get()) || PLATFORM.isActionPressed(INPUT_ACTION_MENU_BACK.get()))) {
       this.loadingStage = 4;
     }
+
     this.creditsStates_800f9378[this.loadingStage].run();
   }
 

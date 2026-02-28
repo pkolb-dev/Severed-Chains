@@ -17,6 +17,7 @@ import static legend.core.GameEngine.CONFIG;
 import static org.lwjgl.openal.AL10.AL_FORMAT_MONO16;
 import static org.lwjgl.openal.AL10.AL_FORMAT_STEREO16;
 import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public final class XaPlayer extends AudioSource {
   private static final Logger LOGGER = LogManager.getFormatterLogger(XaPlayer.class);
@@ -122,8 +123,11 @@ public final class XaPlayer extends AudioSource {
   }
 
   public void unloadOpusFile() {
-    OpusFile.op_free(this.opusFile);
-    this.opusFileData = null;
+    if(this.opusFile != NULL) {
+      OpusFile.op_free(this.opusFile);
+      this.opusFile = NULL;
+      this.opusFileData = null;
+    }
   }
 
   @Override
