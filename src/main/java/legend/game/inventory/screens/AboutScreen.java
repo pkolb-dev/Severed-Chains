@@ -4,7 +4,7 @@ import legend.core.platform.input.InputMod;
 import legend.game.i18n.I18n;
 import legend.game.inventory.screens.controls.Background;
 import legend.game.inventory.screens.controls.Label;
-import legend.lodmod.LodEngineStateTypes;
+import legend.game.modding.coremod.CoreEngineStateTypes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,13 +15,14 @@ import java.util.function.Function;
 
 import static legend.core.GameEngine.PLATFORM;
 import static legend.game.EngineStates.engineStateOnceLoaded_8004dd24;
-import static legend.game.SItem.menuStack;
-import static legend.game.sound.Audio.playMenuSound;
+import static legend.game.EngineStates.postCreditsEngineState;
 import static legend.game.FullScreenEffects.startFadeEffect;
 import static legend.game.Menus.deallocateRenderables;
+import static legend.game.SItem.menuStack;
 import static legend.game.modding.coremod.CoreMod.INPUT_ACTION_MENU_BACK;
 import static legend.game.modding.coremod.CoreMod.INPUT_ACTION_MENU_CONFIRM;
 import static legend.game.modding.coremod.CoreMod.INPUT_ACTION_MENU_HELP;
+import static legend.game.sound.Audio.playMenuSound;
 
 public class AboutScreen extends VerticalLayoutScreen {
   private final Runnable unload;
@@ -121,7 +122,8 @@ public class AboutScreen extends VerticalLayoutScreen {
 
   private void execute(final String url) {
     if(url.equals(LOD_CREDITS)) {
-      engineStateOnceLoaded_8004dd24 = LodEngineStateTypes.CREDITS.get();
+      postCreditsEngineState = CoreEngineStateTypes.TITLE.get();
+      engineStateOnceLoaded_8004dd24 = CoreEngineStateTypes.CREDITS.get();
     } else if(url.equals(SC_CREDITS)) {
       this.showScreen(CreditsScreen::new);
     } else {
