@@ -37,6 +37,7 @@ import legend.game.SItem;
 import legend.game.characters.CharacterData2c;
 import legend.game.combat.encounters.Encounter;
 import legend.game.fmv.Fmv;
+import legend.game.i18n.I18n;
 import legend.game.inventory.WhichMenu;
 import legend.game.inventory.screens.CharSwapScreen;
 import legend.game.inventory.screens.SaveGameScreen;
@@ -159,6 +160,7 @@ import static legend.game.Models.prepareObjTable2;
 import static legend.game.SItem.cacheCharacterSlots;
 import static legend.game.SItem.shopId_8007a3b4;
 import static legend.game.SItem.submapNames_8011c108;
+import static legend.game.Scus94491BpeSegment.lastChestContents;
 import static legend.game.Scus94491BpeSegment.resetSubmapToNewGame;
 import static legend.game.Scus94491BpeSegment.srand;
 import static legend.game.Scus94491BpeSegment_8005.collidedPrimitiveIndex_80052c38;
@@ -921,6 +923,15 @@ public class SMap extends EngineState<SMap> {
       final TextboxText84 textboxText = textboxText_800bdf38[textboxIndex];
       textboxText.type_04 = textType;
       textboxText.str_24 = LodString.fromParam(script.params_20[5]);
+
+      if(textboxText.str_24.get().startsWith("?Cannot carry any more ")) {
+        // One padding space to be replaced with 0xb000
+        final String str = ' ' + I18n.translate("lod.chests.no_room", I18n.translate(lastChestContents));
+        textboxText.str_24 = new LodString(str);
+        textboxText.str_24.charAt(0, 0xb000);
+        textbox.lines_1a++;
+        textboxText.lines_1e++;
+      }
 
       if(textType == 1 && (script.params_20[1].get() & 0x1000) > 0) {
         textboxText.flags_08 |= TextboxText84.NO_INPUT;
