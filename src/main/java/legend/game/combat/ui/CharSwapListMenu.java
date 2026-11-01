@@ -218,6 +218,7 @@ public class CharSwapListMenu extends ListMenu {
 
       case 11 -> {
         this.hud.battle.combatDisabled_800c66b9 = false;
+        this.delete();
         this.onClose.run();
         return;
       }
